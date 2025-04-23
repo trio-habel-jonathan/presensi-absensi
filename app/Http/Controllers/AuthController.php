@@ -17,4 +17,45 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
+
+    // FUNGSI LOGIN DAN REGISTER
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string',
+        ]);
+    
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('dashboard')->with('success', 'Berhasil login!');
+        }
+    
+        return back()->withErrors(['email' => 'Email atau password salah.']);
+    }
+
+    
+    
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect('/login')->with('success', 'Registrasi berhasil. Silakan login.');
+    }
+
+    
+
+    public function logout() {
+        Auth::logout();
+        return redirect('/login')->with('succes','Berhasil Logout.');
+    }
+
 }
