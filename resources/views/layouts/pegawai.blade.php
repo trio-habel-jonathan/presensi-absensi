@@ -24,7 +24,7 @@
     <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('{{ asset('img/profile-layout-header.jpg') }}'); background-position-y: 50%;">
         <span class="mask bg-primary opacity-6"></span>
     </div>
-    @include('layouts.navbars.auth.sidenav')
+    @include('layouts.pegawai-navbar.navbar')
     <main class="main-content border-radius-lg">
         @yield('content')
     </main>
