@@ -12,13 +12,13 @@ class IzinController extends Controller
     public function index()
     {
         $izins = Izin::with('profilPegawai')->paginate(10);
-        return view('izin.index', compact('izins'));
+        return view('admin.izin.index', compact('izins'));
     }
 
     public function create()
     {
         $profilPegawais = ProfilPegawai::all();
-        return view('izin.create', compact('profilPegawais'));
+        return view('admin.izin.create', compact('profilPegawais'));
     }
 
     public function store(Request $request)
@@ -47,13 +47,13 @@ class IzinController extends Controller
     public function show(Izin $izin)
     {
         $izin->load('profilPegawai');
-        return view('izin.show', compact('izin'));
+        return view('admin.izin.show', compact('izin'));
     }
 
     public function edit(Izin $izin)
     {
         $profilPegawais = ProfilPegawai::all();
-        return view('izin.edit', compact('izin', 'profilPegawais'));
+        return view('admin.izin.edit', compact('izin', 'profilPegawais'));
     }
 
     public function update(Request $request, Izin $izin)

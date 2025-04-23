@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- @include('layouts.navbars.auth.topnav', ['title' => 'Employee Management']) --}}
+     {{-- @include('layouts.navbars.auth.topnav', ['title' => 'Employee Management']) --}}
     <div class="row mt-4 mx-4">
         <div class="col-12">
             @if (session('success'))
@@ -26,7 +26,6 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nomor Identitas</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Golongan</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis Pegawai</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Dibuat</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
@@ -47,9 +46,8 @@
                                         </td>
                                         <td>
                                             <p class="text-sm font-weight-bold mb-0">{{ $profil->no_identitas }}</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <p class="text-sm font-weight-bold mb-0">{{ $profil->golongan->nama_golongan ?? 'N/A' }}</p>
+-bold mb-0">{{ $profil->no_identitas }}</p>
+t-bold mb-0">{{ $profil->no_identitas }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-sm font-weight-bold mb-0">{{ $profil->jenisPegawai->nama_jenis_pegawai ?? 'N/A' }}</p>

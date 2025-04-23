@@ -12,13 +12,13 @@ class PresensiController extends Controller
     public function index()
     {
         $presensis = Presensi::with('profilPegawai')->paginate(10);
-        return view('presensi.index', compact('presensis'));
+        return view('admin.presensi.index', compact('presensis'));
     }
 
     public function create()
     {
         $profilPegawais = ProfilPegawai::all();
-        return view('presensi.create', compact('profilPegawais'));
+        return view('admin.presensi.create', compact('profilPegawais'));
     }
 
     public function store(Request $request)
@@ -48,13 +48,13 @@ class PresensiController extends Controller
     public function show(Presensi $presensi)
     {
         $presensi->load('profilPegawai');
-        return view('presensi.show', compact('presensi'));
+        return view('admin.presensi.show', compact('presensi'));
     }
 
     public function edit(Presensi $presensi)
     {
         $profilPegawais = ProfilPegawai::all();
-        return view('presensi.edit', compact('presensi', 'profilPegawais'));
+        return view('admin.presensi.edit', compact('presensi', 'profilPegawais'));
     }
 
     public function update(Request $request, Presensi $presensi)
