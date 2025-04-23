@@ -18,6 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $primaryKey = 'id_user';
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_user adalah integer
 
     protected $fillable = [
 
@@ -58,5 +60,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function profilPegawai()
+    {
+        return $this->hasOne(ProfilPegawai::class, 'id_user', 'id_user');
     }
 }

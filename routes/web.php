@@ -14,7 +14,12 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
-
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\IzinController;
+use App\Http\Controllers\JenisPegawaiController;
+use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\ProfilPegawaiController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
@@ -24,6 +29,7 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 // Route::get('/register', [RegisterController::class, 'create'])->name('register');
 // Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
 // Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
@@ -41,3 +47,11 @@ Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-
 Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 Route::get('/{page}', [PageController::class, 'index'])->name('page');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+// RUTE FITUR ASLI 
+
+Route::resource('profil_pegawai', ProfilPegawaiController::class)->names('profil_pegawai');
+Route::resource('golongan', GolonganController::class)->names('golongan');
+Route::resource('jenis_pegawai', JenisPegawaiController::class)->names('jenis_pegawai');
+Route::resource('presensi', PresensiController::class)->names('presensi');
+Route::resource('izin', IzinController::class)->names('izin');
