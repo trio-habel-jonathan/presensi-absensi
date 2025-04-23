@@ -22,10 +22,12 @@ return new class extends Migration
             $table->string('no_telepon');
             
             // Menyebutkan nama tabel dengan eksplisit
-            $table->unsignedInteger('id_jenis_pegawai');
+            $table->unsignedInteger('id_jenis_pegawai')->nullable();
+            // Menggunakan nullable() untuk foreign key
             $table->foreign('id_jenis_pegawai')->references('id_jenis_pegawai')->on('jenis_pegawai')->onDelete('cascade');
             
-            $table->unsignedInteger('id_golongan');
+            $table->unsignedInteger('id_golongan')->nullable();
+            // Menggunakan nullable() untuk foreign key
             $table->foreign('id_golongan')->references('id_golongan')->on('golongan')->onDelete('cascade');
             
             $table->unsignedInteger('id_user');

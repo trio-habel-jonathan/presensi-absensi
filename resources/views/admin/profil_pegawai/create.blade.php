@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Add Employee'])
+    {{-- @include('layouts.navbars.auth.topnav', ['title' => 'Add Employee']) --}}
     <div class="row mt-4 mx-4">
         <div class="col-12">
             @if ($errors->any())

@@ -6,19 +6,28 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+    
 
 class User extends Authenticatable
 {
-    use  HasFactory, Notifiable;
-    protected $table = 'users';
-    protected $primaryKey = 'id_user';
+    use HasFactory, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['username', 'email', 'password'];
+    protected $primaryKey = 'id_user';
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_user adalah integer
+
+    protected $fillable = [
+
+        'email',
+        'password',
+        'role',
+
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,9 +54,12 @@ class User extends Authenticatable
      * @param $value
     * @return string
     */
-    public function setPasswordAttribute($value)
+    protected function casts(): array
     {
-        $this->attributes['password'] = bcrypt($value);
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
     public function profilPegawai()

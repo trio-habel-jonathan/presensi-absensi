@@ -18,13 +18,19 @@ use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\IzinController;
 use App\Http\Controllers\JenisPegawaiController;
 use App\Http\Controllers\PresensiController;
-use App\Http\Controllers\ProfilPegawaiController;
+use App\Http\Controllers\Admin\ProfilPegawaiController as AdminProfilPegawaiController;
+Use App\Http\Controllers\Pegawai\ProfilPegawaiController as PegawaiProfilPegawaiController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
 });
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 // Route::get('/register', [RegisterController::class, 'create'])->name('register');
 // Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
 // Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
@@ -45,9 +51,21 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // RUTE FITUR ASLI 
 Route::prefix("/dashboard")->group(function() {
-	Route::resource('/profil_pegawai', ProfilPegawaiController::class)->names('profil_pegawai');;
+	Route::resource('profil_pegawai', AdminProfilPegawaiController::class)->names('profil_pegawai');;
 	Route::resource('golongan', GolonganController::class)->names('golongan');
 	Route::resource('jenis_pegawai', JenisPegawaiController::class)->names('jenis_pegawai');
 	Route::resource('presensi', PresensiController::class)->names('presensi');
 	Route::resource('izin', IzinController::class)->names('izin');
+});
+
+
+Route::middleware(['auth'])->prefix('pegawai')->name('pegawai.')->group(function () {
+    // Tampilkan profil pegawai milik user login
+    Route::get('profil', [PegawaiProfilPegawaiController::class, 'index'])->name('profil.index');
+
+    // Form tambah profil
+    Route::get('profil/create', [PegawaiProfilPegawaiController::class, 'create'])->name('profil.create');
+
+    // Simpan data profil baru
+    Route::post('profil', [PegawaiProfilPegawaiController::class, 'store'])->name('profil.store');
 });

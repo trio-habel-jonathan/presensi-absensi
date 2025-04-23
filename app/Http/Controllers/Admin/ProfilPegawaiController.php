@@ -1,41 +1,41 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+// Controller utama dari Laravel
+use App\Http\Controllers\Controller;
+
+// Import semua model yang diperlukan
 use App\Models\ProfilPegawai;
 use App\Models\JenisPegawai;
 use App\Models\Golongan;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ProfilPegawaiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan daftar profil pegawai
     public function index()
     {
+        // Ambil data profil pegawai beserta relasi jenis, golongan, dan user-nya, lalu paginate 10 data per halaman
         $profilPegawais = ProfilPegawai::with(['jenisPegawai', 'golongan', 'user'])->paginate(10);
         return view('admin.profil_pegawai.index', compact('profilPegawais'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Tampilkan form tambah data pegawai
     public function create()
     {
-        $jenisPegawais = JenisPegawai::all();
-        $golongans = Golongan::all();
-        $users = User::all();
-        return view('admin.profil_pegawai.create', compact('jenisPegawais', 'golongans', 'users'));
+        return view('admin.profil_pegawai.create', [
+            'jenisPegawais' => JenisPegawai::all(), // ambil semua jenis pegawai
+            'golongans' => Golongan::all(),         // ambil semua golongan
+            'users' => User::all(),                 // ambil semua user
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Simpan data baru ke database
     public function store(Request $request)
     {
+        // Validasi input dari form
         $validated = $request->validate([
             'nama_pegawai' => 'required|string|max:255',
             'no_identitas' => 'required|string|max:255|unique:profil_pegawai,no_identitas',
@@ -49,40 +49,36 @@ class ProfilPegawaiController extends Controller
             'id_user' => 'required|exists:users,id_user',
         ]);
 
-        try {
-            ProfilPegawai::create($validated);
-            return redirect()->route('profil_pegawai.index')->with('success', 'Profil Pegawai created successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error creating Profil Pegawai: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to create Profil Pegawai.');
-        }
+        // Simpan data ke database
+        ProfilPegawai::create($validated);
+
+        // Kembali ke halaman index dengan pesan sukses
+        return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Tampilkan detail satu pegawai
     public function show(ProfilPegawai $profilPegawai)
     {
+        // Load data relasi
         $profilPegawai->load(['jenisPegawai', 'golongan', 'user']);
         return view('admin.profil_pegawai.show', compact('profilPegawai'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Tampilkan form edit
     public function edit(ProfilPegawai $profilPegawai)
     {
-        $jenisPegawais = JenisPegawai::all();
-        $golongans = Golongan::all();
-        $users = User::all();
-        return view('admin.profil_pegawai.edit', compact('profilPegawai', 'jenisPegawais', 'golongans', 'users'));
+        return view('admin.profil_pegawai.edit', [
+            'profilPegawai' => $profilPegawai,
+            'jenisPegawais' => JenisPegawai::all(),
+            'golongans' => Golongan::all(),
+            'users' => User::all(),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Update data pegawai
     public function update(Request $request, ProfilPegawai $profilPegawai)
     {
+        // Validasi input, cek juga agar no_identitas bisa sama selama itu milik data sekarang
         $validated = $request->validate([
             'nama_pegawai' => 'required|string|max:255',
             'no_identitas' => 'required|string|max:255|unique:profil_pegawai,no_identitas,' . $profilPegawai->id_profil_pegawai . ',id_profil_pegawai',
@@ -96,26 +92,16 @@ class ProfilPegawaiController extends Controller
             'id_user' => 'required|exists:users,id_user',
         ]);
 
-        try {
-            $profilPegawai->update($validated);
-            return redirect()->route('profil_pegawai.index')->with('success', 'Profil Pegawai updated successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error updating Profil Pegawai: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to update Profil Pegawai.');
-        }
+        // Update data di database
+        $profilPegawai->update($validated);
+
+        return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Hapus data pegawai
     public function destroy(ProfilPegawai $profilPegawai)
     {
-        try {
-            $profilPegawai->delete();
-            return redirect()->route('profil_pegawai.index')->with('success', 'Profil Pegawai deleted successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error deleting Profil Pegawai: ' . $e->getMessage());
-            return back()->with('error', 'Failed to delete Profil Pegawai.');
-        }
+        $profilPegawai->delete();
+        return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil dihapus.');
     }
 }
