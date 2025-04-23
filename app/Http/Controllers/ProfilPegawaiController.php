@@ -17,7 +17,7 @@ class ProfilPegawaiController extends Controller
     public function index()
     {
         $profilPegawais = ProfilPegawai::with(['jenisPegawai', 'golongan', 'user'])->paginate(10);
-        return view('profil_pegawai.index', compact('profilPegawais'));
+        return view('admin.profil_pegawai.index', compact('profilPegawais'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ProfilPegawaiController extends Controller
         $jenisPegawais = JenisPegawai::all();
         $golongans = Golongan::all();
         $users = User::all();
-        return view('profil_pegawai.create', compact('jenisPegawais', 'golongans', 'users'));
+        return view('admin.profil_pegawai.create', compact('jenisPegawais', 'golongans', 'users'));
     }
 
     /**
@@ -64,7 +64,7 @@ class ProfilPegawaiController extends Controller
     public function show(ProfilPegawai $profilPegawai)
     {
         $profilPegawai->load(['jenisPegawai', 'golongan', 'user']);
-        return view('profil_pegawai.show', compact('profilPegawai'));
+        return view('admin.profil_pegawai.show', compact('profilPegawai'));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProfilPegawaiController extends Controller
         $jenisPegawais = JenisPegawai::all();
         $golongans = Golongan::all();
         $users = User::all();
-        return view('profil_pegawai.edit', compact('profilPegawai', 'jenisPegawais', 'golongans', 'users'));
+        return view('admin.profil_pegawai.edit', compact('profilPegawai', 'jenisPegawais', 'golongans', 'users'));
     }
 
     /**

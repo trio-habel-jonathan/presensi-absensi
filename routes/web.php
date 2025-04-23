@@ -44,9 +44,10 @@ Route::get('/{page}', [PageController::class, 'index'])->name('page');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // RUTE FITUR ASLI 
-
-Route::resource('profil_pegawai', ProfilPegawaiController::class)->names('profil_pegawai');
-Route::resource('golongan', GolonganController::class)->names('golongan');
-Route::resource('jenis_pegawai', JenisPegawaiController::class)->names('jenis_pegawai');
-Route::resource('presensi', PresensiController::class)->names('presensi');
-Route::resource('izin', IzinController::class)->names('izin');
+Route::prefix("/dashboard")->group(function() {
+	Route::resource('/profil_pegawai', ProfilPegawaiController::class)->names('profil_pegawai');;
+	Route::resource('golongan', GolonganController::class)->names('golongan');
+	Route::resource('jenis_pegawai', JenisPegawaiController::class)->names('jenis_pegawai');
+	Route::resource('presensi', PresensiController::class)->names('presensi');
+	Route::resource('izin', IzinController::class)->names('izin');
+});
