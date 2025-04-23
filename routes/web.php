@@ -9,6 +9,7 @@ Route::get('/', function () {
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
@@ -18,9 +19,10 @@ use App\Http\Controllers\ChangePassword;
 Route::get('/', function () {
 	return redirect('/dashboard');
 });
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 // Route::get('/register', [RegisterController::class, 'create'])->name('register');
 // Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
-Route::get('/login', [PageController::class, 'signin'])->name('login');
 // Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
 // Route::get('/reset-password', [ResetPassword::class, 'show'])->name('reset-password');
 // Route::post('/reset-password', [ResetPassword::class, 'send'])->name('reset.perform');

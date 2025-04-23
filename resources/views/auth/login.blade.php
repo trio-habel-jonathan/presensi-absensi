@@ -1,10 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
     <div class="container position-sticky z-index-sticky top-0">
         <div class="row">
             <div class="col-12">
-                @include('layouts.navbars.guest.navbar')
             </div>
         </div>
     </div>
@@ -20,7 +19,7 @@
                                     <p class="mb-0">Enter your email and password to sign in</p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form" method="POST" action="{{ route('login.perform') }}">
+                                    <form role="form" method="POST" action="">
                                         @csrf
                                         @method('post')
                                         <div class="flex flex-col mb-3">
@@ -43,13 +42,13 @@
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-1 text-sm mx-auto">
                                         Forgot you password? Reset your password
-                                        <a href="{{ route('reset-password') }}" class="text-primary text-gradient font-weight-bold">here</a>
+                                        {{-- <a href="{{ route('reset-password') }}" class="text-primary text-gradient font-weight-bold">here</a> --}}
                                     </p>
                                 </div>
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-4 text-sm mx-auto">
                                         Don't have an account?
-                                        <a href="{{ route('register') }}" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                        {{-- <a href="{{ route('register') }}" class="text-primary text-gradient font-weight-bold">Sign up</a> --}}
                                     </p>
                                 </div>
                             </div>
