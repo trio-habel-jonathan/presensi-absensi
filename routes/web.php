@@ -21,6 +21,7 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\Admin\ProfilPegawaiController as AdminProfilPegawaiController;
 use App\Http\Controllers\Pegawai\ProfilPegawaiController as PegawaiProfilPegawaiController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
@@ -54,46 +55,53 @@ Route::prefix("/dashboard")->group(function () {
 	Route::get('profil_pegawai', [AdminProfilPegawaiController::class, 'index'])->name('profil_pegawai.index');
 	Route::get('profil_pegawai/create', [AdminProfilPegawaiController::class, 'create'])->name('profil_pegawai.create');
 	Route::post('profil_pegawai', [AdminProfilPegawaiController::class, 'store'])->name('profil_pegawai.store');
-	Route::get('profil_pegawai/{id}', [AdminProfilPegawaiController::class, 'show'])->name('profil_pegawai.show');
-	Route::get('profil_pegawai/{id}/edit', [AdminProfilPegawaiController::class, 'edit'])->name('profil_pegawai.edit');
-	Route::put('profil_pegawai/{id}', [AdminProfilPegawaiController::class, 'update'])->name('profil_pegawai.update');
-	Route::delete('profil_pegawai/{id}', [AdminProfilPegawaiController::class, 'destroy'])->name('profil_pegawai.destroy');
+	Route::get('profil_pegawai/{profilPegawai}', [AdminProfilPegawaiController::class, 'show'])->name('profil_pegawai.show');
+	Route::get('profil_pegawai/{profilPegawai}/edit', [AdminProfilPegawaiController::class, 'edit'])->name('profil_pegawai.edit');
+	Route::put('profil_pegawai/{profilPegawai}', [AdminProfilPegawaiController::class, 'update'])->name('profil_pegawai.update');
+	Route::delete('profil_pegawai/{profilPegawai}', [AdminProfilPegawaiController::class, 'destroy'])->name('profil_pegawai.destroy');
 
 
 	Route::get('golongan', [GolonganController::class, 'index'])->name('golongan.index');
 	Route::get('golongan/create', [GolonganController::class, 'create'])->name('golongan.create');
 	Route::post('golongan', [GolonganController::class, 'store'])->name('golongan.store');
-	Route::get('golongan/{id}', [GolonganController::class, 'show'])->name('golongan.show');
-	Route::get('golongan/{id}/edit', [GolonganController::class, 'edit'])->name('golongan.edit');
-	Route::put('golongan/{id}', [GolonganController::class, 'update'])->name('golongan.update');
-	Route::delete('golongan/{id}', [GolonganController::class, 'destroy'])->name('golongan.destroy');
+	Route::get('golongan/{golongan}', [GolonganController::class, 'show'])->name('golongan.show');
+	Route::get('golongan/{golongan}/edit', [GolonganController::class, 'edit'])->name('golongan.edit');
+	Route::put('golongan/{golongan}', [GolonganController::class, 'update'])->name('golongan.update');
+	Route::delete('golongan/{golongan}', [GolonganController::class, 'destroy'])->name('golongan.destroy');
 
 
 	Route::get('jenis_pegawai', [JenisPegawaiController::class, 'index'])->name('jenis_pegawai.index');
 	Route::get('jenis_pegawai/create', [JenisPegawaiController::class, 'create'])->name('jenis_pegawai.create');
 	Route::post('jenis_pegawai', [JenisPegawaiController::class, 'store'])->name('jenis_pegawai.store');
-	Route::get('jenis_pegawai/{id}', [JenisPegawaiController::class, 'show'])->name('jenis_pegawai.show');
-	Route::get('jenis_pegawai/{id}/edit', [JenisPegawaiController::class, 'edit'])->name('jenis_pegawai.edit');
-	Route::put('jenis_pegawai/{id}', [JenisPegawaiController::class, 'update'])->name('jenis_pegawai.update');
-	Route::delete('jenis_pegawai/{id}', [JenisPegawaiController::class, 'destroy'])->name('jenis_pegawai.destroy');
+	Route::get('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'show'])->name('jenis_pegawai.show');
+	Route::get('jenis_pegawai/{jenisPegawai}/edit', [JenisPegawaiController::class, 'edit'])->name('jenis_pegawai.edit');
+	Route::put('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'update'])->name('jenis_pegawai.update');
+	Route::delete('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'destroy'])->name('jenis_pegawai.destroy');
 
 
 	Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
 	Route::get('presensi/create', [PresensiController::class, 'create'])->name('presensi.create');
 	Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
-	Route::get('presensi/{id}', [PresensiController::class, 'show'])->name('presensi.show');
-	Route::get('presensi/{id}/edit', [PresensiController::class, 'edit'])->name('presensi.edit');
-	Route::put('presensi/{id}', [PresensiController::class, 'update'])->name('presensi.update');
-	Route::delete('presensi/{id}', [PresensiController::class, 'destroy'])->name('presensi.destroy');
+	Route::get('presensi/{presensi}', [PresensiController::class, 'show'])->name('presensi.show');
+	Route::get('presensi/{presensi}/edit', [PresensiController::class, 'edit'])->name('presensi.edit');
+	Route::put('presensi/{presensi}', [PresensiController::class, 'update'])->name('presensi.update');
+	Route::delete('presensi/{presensi}', [PresensiController::class, 'destroy'])->name('presensi.destroy');
 
 
 	Route::get('izin', [IzinController::class, 'index'])->name('izin.index');
 	Route::get('izin/create', [IzinController::class, 'create'])->name('izin.create');
 	Route::post('izin', [IzinController::class, 'store'])->name('izin.store');
-	Route::get('izin/{id}', [IzinController::class, 'show'])->name('izin.show');
-	Route::get('izin/{id}/edit', [IzinController::class, 'edit'])->name('izin.edit');
-	Route::put('izin/{id}', [IzinController::class, 'update'])->name('izin.update');
-	Route::delete('izin/{id}', [IzinController::class, 'destroy'])->name('izin.destroy');
+	Route::get('izin/{izin}', [IzinController::class, 'show'])->name('izin.show');
+	Route::get('izin/{izin}/edit', [IzinController::class, 'edit'])->name('izin.edit');
+	Route::put('izin/{izin}', [IzinController::class, 'update'])->name('izin.update');
+	Route::delete('izin/{izin}', [IzinController::class, 'destroy'])->name('izin.destroy');
+
+	Route::get("user", [UserController::class, "index"])->name("users.index");
+	Route::get("user/create", [UserController::class, "create"])->name("users.create");
+	Route::post("user/create", [UserController::class, "store"])->name("users.store");
+	Route::delete("user/{user}/delete", [UserController::class, "destroy"])->name("users.destroy");
+	Route::get("user/{user}/edit", [UserController::class, "edit"])->name("users.edit");
+	Route::put("user/{user}/update", [UserController::class, "update"])->name("users.update");
 });
 
 

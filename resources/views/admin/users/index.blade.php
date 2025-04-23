@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Manajemen Pengguna'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             <div class="card mb-4">
-                <div class="card-header pb-0">
+                <div class="card-header d-flex pb-0 flex justify-content-between align-items-center">
                     <h6>Pengguna</h6>
+                    <a href="{{route('users.create')}}" class="btn btn-primary" >Buat Users</a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     @if (session('success'))
@@ -55,7 +55,7 @@
                                                 <form action="{{ route('users.destroy', $user->id_user) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="text-sm font-weight-bold mb-0 ps-2 text-danger cursor-pointer" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
+                                                    <button type="submit" class="bg-transparent border-0 text-sm font-weight-bold mb-0 ps-2 text-danger cursor-pointer" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
                                                 </form>
                                             </div>
                                         </td>
