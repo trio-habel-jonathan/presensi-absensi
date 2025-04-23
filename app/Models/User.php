@@ -11,24 +11,14 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $table = 'users';
+    protected $primaryKey = 'id_user';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'username',
-        'firstname',
-        'lastname',
-        'email',
-        'password',
-        'address',
-        'city',
-        'country',
-        'postal',
-        'about'
-    ];
+    protected $fillable = ['username', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,5 +48,10 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function profilPegawai()
+    {
+        return $this->hasOne(ProfilPegawai::class, 'id_user', 'id_user');
     }
 }
