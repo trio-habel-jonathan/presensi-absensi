@@ -22,13 +22,6 @@
                                     <form role="form" method="POST" action="{{ route('register') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <input type="text" name="username" class="form-control form-control-lg" 
-                                                   placeholder="Username" value="{{ old('username') }}" required>
-                                            @error('username')
-                                                <p class="text-danger text-xs pt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg" 
                                                    placeholder="Email" value="{{ old('email') }}" required>
                                             @error('email')

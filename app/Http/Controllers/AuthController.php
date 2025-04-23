@@ -21,18 +21,24 @@ class AuthController extends Controller
     // FUNGSI LOGIN DAN REGISTER
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|max:255',
-            'password' => 'required|string',
-        ]);
-    
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('dashboard')->with('success', 'Berhasil login!');
+{
+    $request->validate([
+        'email' => 'required|email|max:255',
+        'password' => 'required|string',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if ($user && Hash::check($request->password, $user->password)) {
+        Auth::login($user);
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Berhasil login sebagai admin!');
         }
-    
-        return back()->withErrors(['email' => 'Email atau password salah.']);
+        return redirect()->route('dashboard')->with('success', 'Berhasil login sebagai pegawai!');
     }
+
+    return back()->withErrors(['email' => 'Email atau password salah.']);
+}
 
     
     
