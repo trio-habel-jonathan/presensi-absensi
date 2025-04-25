@@ -14,7 +14,7 @@ class Izin extends Model
     protected $fillable = [
         'id_profil_pegawai',
         'tanggal',
-        'jenis',
+        'id_jenis_izin',
         'keterangan',
         'lampiran',
         'status',
@@ -22,12 +22,15 @@ class Izin extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'jenis' => 'string', // 'sakit', 'cuti', 'izin'
         'status' => 'string', // 'pending', 'disetujui', 'ditolak'
     ];
 
     public function profilPegawai()
     {
         return $this->belongsTo(ProfilPegawai::class, 'id_profil_pegawai', 'id_profil_pegawai');
+    }
+    public function jenisIzin()
+    {
+        return $this->belongsTo(JenisIzin::class, 'id_jenis_izin', 'id_jenis_izin');
     }
 }

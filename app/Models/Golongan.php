@@ -11,8 +11,11 @@ class Golongan extends Model
 
     protected $table = 'golongan';
     protected $primaryKey = 'id_golongan';
-    public $incrementing = true;
-    protected $fillable = ['nama_golongan'];
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_golongan adalah integer
+    protected $fillable = [
+        'nama_golongan'
+    ];
 
     protected $casts = [
         'created_at' => 'datetime',

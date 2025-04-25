@@ -45,11 +45,13 @@
                         </div>
                         <div class="mb-3">
                             <label class="text-sm font-weight-bold">Jenis Izin</label>
-                            <select name="jenis" class="form-control" required>
-                                <option value="">Pilih Jenis</option>
-                                <option value="sakit" {{ old('jenis', $izin->jenis) == 'sakit' ? 'selected' : '' }}>Sakit</option>
-                                <option value="cuti" {{ old('jenis', $izin->jenis) == 'cuti' ? 'selected' : '' }}>Cuti</option>
-                                <option value="izin" {{ old('jenis', $izin->jenis) == 'izin' ? 'selected' : '' }}>Izin</option>
+                            <select name="id_jenis_izin" class="form-control" required>
+                                <option value="">Pilih Jenis Izin</option>
+                                @foreach ($jenisIzins as $jenis)
+                                    <option value="{{ $jenis->id_jenis_izin }}" {{ old('id_jenis_izin', $izin->id_jenis_izin) == $jenis->id_jenis_izin ? 'selected' : '' }}>
+                                        {{ $jenis->nama_jenis_izin }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">

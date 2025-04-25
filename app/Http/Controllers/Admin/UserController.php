@@ -37,20 +37,17 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'username' => 'required|string',
             'email' => ['required', 'email', 'unique:users,email,' . $user->id_user . ',id_user'],
             'password' => 'nullable|confirmed',
         ]);
 
         if ($request->input('password')) {
             $user->update([
-                'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
         } else {
             $user->update([
-                'username' => $request->username,
                 'email' => $request->email,
             ]);
         }
@@ -60,7 +57,6 @@ class UserController extends Controller
 
     public function store(Request $request){
         $validated = $request->validate([
-            'username' => 'required|string',
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => 'required|confirmed',
         ]);

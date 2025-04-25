@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('presensi', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_presensi');
             $table->unsignedInteger('id_profil_pegawai'); // Menggunakan INT sebagai foreign key
             $table->date('tanggal');
             $table->time('jam_masuk');
