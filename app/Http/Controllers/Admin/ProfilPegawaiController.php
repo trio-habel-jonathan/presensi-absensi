@@ -15,11 +15,22 @@ use Illuminate\Http\Request;
 class ProfilPegawaiController extends Controller
 {
     // Menampilkan daftar profil pegawai
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil data profil pegawai beserta relasi jenis, golongan, dan user-nya, lalu paginate 10 data per halaman
-        $profilPegawais = ProfilPegawai::with(['jenisPegawai', 'golongan', 'user'])->paginate(10);
-        return view('admin.profil_pegawai.index', compact('profilPegawais'));
+        // Ambil query pencarian dari request
+        $search = $request->input('search');
+
+        // Ambil data profil pegawai dengan relasi, filter berdasarkan pencarian, lalu paginate 10 data per halaman
+        $profilPegawais = ProfilPegawai::with(['jenisPegawai', 'golongan', 'user'])
+            ->when($search, function ($query, $search) {
+                // Filter data berdasarkan nama pegawai atau nomor identitas yang mengandung teks pencarian
+                $query->where('nama_pegawai', 'like', "%{$search}%")
+                      ->orWhere('no_identitas', 'like', "%{$search}%");
+            })
+            ->paginate(10); // Batasi hasil menjadi 10 data per halaman
+
+        // Tampilkan view index dengan data profil pegawai dan query pencarian
+        return view('admin.profil_pegawai.index', compact('profilPegawais', 'search'));
     }
 
     // Tampilkan form tambah data pegawai

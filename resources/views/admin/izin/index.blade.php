@@ -1,6 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl mt-3 bg-primary">
+    <!-- Form pencarian pengguna -->
+    <form method="GET" action="{{ route('izin.index') }}" style="z-index: 1000"
+        class="d-flex align-items-center absolute w-100">
+        <!-- Input untuk mencari berdasarkan nama pengguna -->
+        <input type="search" name="search" class="form-control me-2 w-25" value="{{ request('search') }}"
+            placeholder="Cari Pengguna">
+        <!-- Input untuk mencari berdasarkan tanggal -->
+        <input type="date" name="tanggal" class="form-control me-2 w-25" value="{{ request('tanggal') }}">
+        <!-- Dropdown untuk memilih jenis (sakit, cuti, izin) -->
+        <select name="jenis" class="form-control me-2 w-25">
+            <option value="">Pilih Jenis</option>
+            <option value="sakit" {{ request('jenis') == 'sakit' ? 'selected' : '' }}>Sakit</option>
+            <option value="cuti" {{ request('jenis') == 'cuti' ? 'selected' : '' }}>Cuti</option>
+            <option value="izin" {{ request('jenis') == 'izin' ? 'selected' : '' }}>Izin</option>
+        </select>
+        <!-- Dropdown untuk memilih status (pending, disetujui, ditolak) -->
+        <select name="status" class="form-control me-2 w-25">
+            <option value="">Pilih Status</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+            <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+        </select>
+        <!-- Tombol untuk melakukan pencarian -->
+        <button type="submit" class="btn btn-primary m-0 w-15">Cari</button>
+        <!-- Tombol untuk menghapus filter pencarian, muncul jika ada filter aktif -->
+        @if (request()->input('search') || request()->input('tanggal') || request()->input('jenis') || request()->input('status'))
+        <a href="{{ route('izin.index') }}" class="btn btn-primary m-0 w-15">Clear Pencarian</a>
+        @endif
+    </form>
+</nav>
+
+
 <div class="row mt-4 mx-4">
     <div class="col-12">
         <div class="card mb-4">
@@ -45,7 +78,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="text-sm font-weight-bold mb-0">{{$izin->JenisIzin->nama_jenis_izin }}</p>
+                                    <p class="text-sm font-weight-bold mb-0">{{$izin->jenis }}</p>
                                 </td>
                                 <td>
                                     <p class="text-sm mb-0">{{ $izin->keterangan }}</p>

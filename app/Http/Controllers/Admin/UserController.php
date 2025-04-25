@@ -9,9 +9,20 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(25);
+        /**
+         * Mengambil daftar pengguna yang dipaginasi berdasarkan filter email dan username.
+         *
+         * Metode ini melakukan query pada model `User` untuk mencari pengguna
+         * yang alamat email atau username-nya mengandung kata kunci pencarian yang diberikan
+         * dalam permintaan. Hasilnya dipaginasi dengan batas 25 pengguna per halaman.
+         */
+        $users = User::where(function ($query) use ($request) {
+            $query->where('email', 'like', '%' . $request->search . '%')
+              ->orWhere('username', 'like', '%' . $request->search . '%');
+        })->paginate(25);
+
         return view('admin.users.index', compact('users'));
     }
 

@@ -11,14 +11,44 @@ use Illuminate\Http\Request;
 class IzinController extends Controller
 {
     /**
-     * Nampilin daftar izin.
+     * Nampilin daftar izin dengan fitur pencarian.
      * - Ambil semua izin dengan relasi pegawai dan jenis izin.
+     * - Filter berdasarkan nama pengguna, tanggal, jenis izin, dan status jika ada.
      * - Tampilkan 10 data per halaman.
      * - Buka halaman 'admin.izin.index'.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $izins = Izin::with(['profilPegawai', 'jenisIzin'])->paginate(10);
+        // Ambil parameter pencarian dari request
+        $search = $request->input('search');
+        $tanggal = $request->input('tanggal');
+        $jenis = $request->input('jenis');
+        $status = $request->input('status');
+
+        // Query izin dengan relasi profilPegawai
+        $izins = Izin::with(['profilPegawai'])
+            ->when($search, function ($query, $search) {
+                // Filter berdasarkan nama pengguna
+                $query->whereHas('profilPegawai', function ($query) use ($search) {
+                    $query->where('nama', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($tanggal, function ($query, $tanggal) {
+                // Filter berdasarkan tanggal
+                $query->where('tanggal', $tanggal);
+            })
+            ->when($jenis, function ($query, $jenis) {
+                // Filter berdasarkan jenis izin
+                $query->where('jenis', $jenis  );
+
+            })
+            ->when($status, function ($query, $status) {
+                // Filter berdasarkan status
+                $query->where('status', $status);
+            })
+            ->paginate(10);
+
+        // Tampilkan halaman dengan data izin
         return view('admin.izin.index', compact('izins'));
     }
 
@@ -30,8 +60,7 @@ class IzinController extends Controller
     public function create()
     {
         $profilPegawais = ProfilPegawai::all();
-        $jenisIzins = JenisIzin::all();
-        return view('admin.izin.create', compact('profilPegawais', 'jenisIzins'));
+        return view('admin.izin.create', compact('profilPegawais'));
     }
 
     /**
@@ -46,7 +75,7 @@ class IzinController extends Controller
         $validated = $request->validate([
             'id_profil_pegawai' => 'required|exists:profil_pegawai,id_profil_pegawai',
             'tanggal' => 'required|date',
-            'id_jenis_izin' => 'required|exists:jenis_izin,id_jenis_izin',
+            'jenis' => 'required',
             'keterangan' => 'required|string|max:255',
             'lampiran' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
             'status' => 'required|in:pending,disetujui,ditolak',
