@@ -126,6 +126,9 @@ Route::middleware(['auth'])->prefix('pegawai')->name('pegawai.')->group(function
 	Route::get('presensi', [PegawaiPresensiController::class, 'index'])->name('presensi.index');
 	Route::get('presensi/create', [PegawaiPresensiController::class, 'create'])->name('presensi.create');
 	Route::post('presensi', [PegawaiPresensiController::class, 'store'])->name('presensi.store');
-	Route::get('presensi/izin', [PegawaiPresensiController::class, 'izin'])->name('izin.index');
+	Route::get('presensi/izin', [PegawaiPresensiController::class, 'izin'])->name('presensi.izin');
 	Route::post('presensi/izin', [PegawaiPresensiController::class, 'storeIzin'])->name('presensi.storeIzin');
+	Route::post('/presensi/clock-out', [PegawaiPresensiController::class, 'clockOut'])->name('presensi.clockOut');
+
+
 });

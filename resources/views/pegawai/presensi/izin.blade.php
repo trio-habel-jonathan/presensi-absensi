@@ -45,12 +45,12 @@
                     <textarea name="keterangan" id="keterangan" class="form-control" rows="4" required>{{ old('keterangan') }}</textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="text-sm font-weight-bold">Lampiran (Opsional, PDF/JPG/PNG)</label>
-                    <input type="file" name="lampiran" id="lampiran" class="form-control" accept=".pdf,image/jpeg,image/png">
+                    <label class="text-sm font-weight-bold">Lampiran (PDF/JPG/PNG)</label>
+                    <input type="file" name="lampiran" id="lampiran" class="form-control" accept=".pdf,image/jpeg,image/png" required>
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Ajukan</button>
-                    <a href="{{ route('presensi.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('pegawai.presensi.index') }}" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>
