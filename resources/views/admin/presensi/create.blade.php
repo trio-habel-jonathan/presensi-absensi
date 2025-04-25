@@ -32,10 +32,10 @@
                             <label for="id_profil_pegawai" class="form-label">Pegawai</label>
                             <select name="id_profil_pegawai" id="id_profil_pegawai" class="form-select" required>
                                 <option value="">Pilih Pegawai</option>
-                                @foreach ($profilPegawais as $pegawai)
+                                @foreach ($daftarPegawai as $pegawai)
                                     <option value="{{ $pegawai->id_profil_pegawai }}" {{ old('id_profil_pegawai') == $pegawai->id_profil_pegawai ? 'selected' : '' }}>
                                         {{ $pegawai->nama_pegawai }}
-                                    </EMAoption>
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

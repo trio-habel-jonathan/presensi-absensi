@@ -34,9 +34,16 @@ class ProfilPegawaiController extends Controller
     // Tampilkan form tambah data pegawai
     public function create()
     {
-        // Tampilkan form create khusus pegawai (tanpa user & lainnya)
+        $userId = auth()->user()->id_user;
+        $existingProfil = ProfilPegawai::where('id_user', $userId)->first();
+
+        if ($existingProfil) {
+            return redirect()->route('pegawai.profil.index')->with('warning', 'Anda sudah memiliki profil.');
+        }
+
         return view('pegawai.profil_pegawai.create');
     }
+
     
 
     // Simpan data baru ke database
@@ -44,6 +51,7 @@ class ProfilPegawaiController extends Controller
 {
     // Validasi input dari form
     $validated = $request->validate([
+        'foto_pegawai' => 'required|file|mimes:jpg,png|max:2048', // Validasi untuk file foto
         'nama_pegawai' => 'required|string|max:255',
         'no_identitas' => 'required|string|max:255|unique:profil_pegawai,no_identitas',
         'tempat_lahir' => 'required|string|max:255',
@@ -51,8 +59,13 @@ class ProfilPegawaiController extends Controller
         'jenis_kelamin' => 'required|in:L,P',
         'alamat' => 'required|string|max:255',
         'no_telepon' => 'required|string|max:255',
+        
 
     ]);
+
+    if ($request->hasFile('foto_pegawai')) {
+        $validated['foto_pegawai'] = $request->file('foto_pegawai')->store('foto_pegawai', 'public');
+    }
 
     // Set otomatis user login
     $validated['id_user'] = Auth::user()->id_user;
@@ -60,54 +73,7 @@ class ProfilPegawaiController extends Controller
 
     ProfilPegawai::create($validated);
 
-    return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil ditambahkan.');
+    return redirect()->route('pegawai.profil.index')->with('success', 'Berhasil ditambahkan.');
 }
 
-
-    // Tampilkan form edit
-    public function edit(ProfilPegawai $profilPegawai)
-    {
-        // Pastikan hanya user yang memiliki profil ini yang bisa mengedit
-        if ($profilPegawai->id_user !== Auth::user()->id_user) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        return view('pegawai.profil_pegawai.edit', [
-            'profilPegawai' => $profilPegawai,
-        ]);
-    }
-
-    // Update data pegawai
-    public function update(Request $request, ProfilPegawai $profilPegawai)
-    {
-        // Pastikan hanya user yang memiliki profil ini yang bisa mengupdate
-        if ($profilPegawai->id_user !== Auth::user()->id_user) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        // Validasi input, cek juga agar no_identitas bisa sama selama itu milik data sekarang
-        $validated = $request->validate([
-            'nama_pegawai' => 'required|string|max:255',
-            'no_identitas' => 'required|string|max:255|unique:profil_pegawai,no_identitas,' . $profilPegawai->id_profil_pegawai . ',id_profil_pegawai',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:L,P',
-            'alamat' => 'required|string|max:255',
-            'no_telepon' => 'required|string|max:255',
-        ]);
-
-        // Update data di database
-        $validated['id_user'] = Auth::user()->id_user;
-
-        $profilPegawai->update($validated);
-
-        return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil diupdate.');
-    }
-
-    // Hapus data pegawai
-    public function destroy(ProfilPegawai $profilPegawai)
-    {
-        $profilPegawai->delete();
-        return redirect()->route('profil_pegawai.index')->with('success', 'Berhasil dihapus.');
-    }
 }
