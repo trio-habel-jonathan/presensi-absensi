@@ -34,7 +34,7 @@ class AuthController extends Controller
         if ($user->role === 'admin') {
             return redirect()->route('admin.dashboard')->with('success', 'Berhasil login sebagai admin!');
         }
-        return redirect()->route('dashboard')->with('success', 'Berhasil login sebagai pegawai!');
+        return redirect()->route('pegawai.profil.index')->with('success', 'Berhasil login sebagai pegawai!');
     }
 
     return back()->withErrors(['email' => 'Email atau password salah.']);

@@ -38,14 +38,14 @@
                             @forelse ($izins as $izin)
                             <tr>
                                 <td>
-
-                                    <div class="d-flex flex-column justify-content-center">
+                                    <div class="d-flex px-3 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm">{{ $izin->profilPegawai->nama_pegawai ?? 'N/A' }}</h6>
+                                        </div>
                                     </div>
-
                                 </td>
                                 <td>
-                                    <p class="text-sm font-weight-bold mb-0">{{ ucfirst($izin->jenis) }}</p>
+                                    <p class="text-sm font-weight-bold mb-0">{{$izin->JenisIzin->nama_jenis_izin }}</p>
                                 </td>
                                 <td>
                                     <p class="text-sm mb-0">{{ $izin->keterangan }}</p>
@@ -54,8 +54,7 @@
                                     <p class="text-sm font-weight-bold mb-0">{{ $izin->tanggal->format('d/m/Y') }}</p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <img src="{{ asset('storage/' . $izin->lampiran) }}" class="avatar me-3"
-                                        alt="image">
+                                    <a href="{{ asset('storage/' . $izin->lampiran) }}" target="_blank">Lihat Lampiran</a>
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     <p class="text-sm font-weight-bold mb-0">{{ ucfirst($izin->status) }}</p>

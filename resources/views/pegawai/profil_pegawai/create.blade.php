@@ -17,9 +17,20 @@
                 <h6>Isi Data Diri Kamu</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('pegawai.profil.store') }}" method="POST">
+                <form action="{{ route('pegawai.profil.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-xs font-weight-bold">Foto Pegawai</label>
+                            <input type="file" name="foto_pegawai" class="form-control @error('foto_pegawai') is-invalid @enderror" accept="image/*" onchange="previewFoto(event)" required>
+                            @error('foto_pegawai')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="mt-2">
+                                <img id="preview-image" src="{{ asset('img/default-profile.png') }}" alt="Preview Foto" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                            </div>  
+                        </div>
+                        
                         <div class="col-md-6 mb-3">
                             <label class="form-label text-xs font-weight-bold">Name</label>
                             <input type="text" name="nama_pegawai" class="form-control" value="{{ old('nama_pegawai') }}" required>
@@ -57,7 +68,6 @@
                     {{-- id_user, id_jenis_pegawai, id_golongan will be set in controller --}}
 
                     <div class="d-flex justify-content-end">
-                        {{-- <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm me-2">Cancel</a> --}}
                         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                     </div>
                 </form>
@@ -65,4 +75,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    function previewFoto(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview-image');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
 @endsection

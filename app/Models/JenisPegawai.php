@@ -11,6 +11,8 @@ class JenisPegawai extends Model
 
     protected $table = 'jenis_pegawai';
     protected $primaryKey = 'id_jenis_pegawai';
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_jenis_pegawai adalah integer
     protected $fillable = ['nama_jenis_pegawai'];
 
     public function profilPegawai()

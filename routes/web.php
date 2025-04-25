@@ -14,10 +14,13 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
-use App\Http\Controllers\GolonganController;
-use App\Http\Controllers\IzinController;
-use App\Http\Controllers\JenisPegawaiController;
-use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\Admin\GolonganController;
+use App\Http\Controllers\Admin\IzinController;
+use App\Http\Controllers\Admin\JenisPegawaiController;
+use App\Http\Controllers\Admin\JadwalController;
+use App\Http\Controllers\Admin\PresensiController as AdminPresensiController;
+use App\Http\Controllers\Pegawai\PresensiController as PegawaiPresensiController;
+
 use App\Http\Controllers\Admin\ProfilPegawaiController as AdminProfilPegawaiController;
 use App\Http\Controllers\Pegawai\ProfilPegawaiController as PegawaiProfilPegawaiController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -30,7 +33,7 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 // Route::get('/register', [RegisterController::class, 'create'])->name('register');
 // Route::post('/register', [RegisterController::class, 'store'])->name('register.perform');
@@ -48,7 +51,7 @@ Route::get('/profile-static', [PageController::class, 'profile'])->name('profile
 Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
 Route::get('/{page}', [PageController::class, 'index'])->name('page');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+// Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // RUTE FITUR ASLI 
 Route::prefix("/dashboard")->group(function () {
@@ -64,7 +67,6 @@ Route::prefix("/dashboard")->group(function () {
 	Route::get('golongan', [GolonganController::class, 'index'])->name('golongan.index');
 	Route::get('golongan/create', [GolonganController::class, 'create'])->name('golongan.create');
 	Route::post('golongan', [GolonganController::class, 'store'])->name('golongan.store');
-	Route::get('golongan/{golongan}', [GolonganController::class, 'show'])->name('golongan.show');
 	Route::get('golongan/{golongan}/edit', [GolonganController::class, 'edit'])->name('golongan.edit');
 	Route::put('golongan/{golongan}', [GolonganController::class, 'update'])->name('golongan.update');
 	Route::delete('golongan/{golongan}', [GolonganController::class, 'destroy'])->name('golongan.destroy');
@@ -73,25 +75,31 @@ Route::prefix("/dashboard")->group(function () {
 	Route::get('jenis_pegawai', [JenisPegawaiController::class, 'index'])->name('jenis_pegawai.index');
 	Route::get('jenis_pegawai/create', [JenisPegawaiController::class, 'create'])->name('jenis_pegawai.create');
 	Route::post('jenis_pegawai', [JenisPegawaiController::class, 'store'])->name('jenis_pegawai.store');
-	Route::get('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'show'])->name('jenis_pegawai.show');
 	Route::get('jenis_pegawai/{jenisPegawai}/edit', [JenisPegawaiController::class, 'edit'])->name('jenis_pegawai.edit');
 	Route::put('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'update'])->name('jenis_pegawai.update');
 	Route::delete('jenis_pegawai/{jenisPegawai}', [JenisPegawaiController::class, 'destroy'])->name('jenis_pegawai.destroy');
 
+	Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
+	Route::get('jadwal/create', [JadwalController::class, 'create'])->name('jadwal.create');
+	Route::post('jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+	Route::get('jadwal/{jadwal}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
+	Route::put('jadwal/{jadwal}', [JadwalController::class, 'update'])->name('jadwal.update');
+	Route::delete('jadwal/{jadwal}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
 
-	Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
-	Route::get('presensi/create', [PresensiController::class, 'create'])->name('presensi.create');
-	Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
-	Route::get('presensi/{presensi}', [PresensiController::class, 'show'])->name('presensi.show');
-	Route::get('presensi/{presensi}/edit', [PresensiController::class, 'edit'])->name('presensi.edit');
-	Route::put('presensi/{presensi}', [PresensiController::class, 'update'])->name('presensi.update');
-	Route::delete('presensi/{presensi}', [PresensiController::class, 'destroy'])->name('presensi.destroy');
+
+	Route::get('presensi', [AdminPresensiController::class, 'index'])->name('presensi.index');
+	Route::get('presensi/create', [AdminPresensiController::class, 'create'])->name('presensi.create');
+	Route::post('presensi', [AdminPresensiController::class, 'store'])->name('presensi.store');
+	Route::get('presensi/{presensi}/detail', [AdminPresensiController::class, 'detail'])->name('presensi.detail');
+
+	Route::get('presensi/{presensi}/edit', [AdminPresensiController::class, 'edit'])->name('presensi.edit');
+	Route::put('presensi/{presensi}', [AdminPresensiController::class, 'update'])->name('presensi.update');
+	Route::delete('presensi/{presensi}', [AdminPresensiController::class, 'destroy'])->name('presensi.destroy');
 
 
 	Route::get('izin', [IzinController::class, 'index'])->name('izin.index');
 	Route::get('izin/create', [IzinController::class, 'create'])->name('izin.create');
 	Route::post('izin', [IzinController::class, 'store'])->name('izin.store');
-	Route::get('izin/{izin}', [IzinController::class, 'show'])->name('izin.show');
 	Route::get('izin/{izin}/edit', [IzinController::class, 'edit'])->name('izin.edit');
 	Route::put('izin/{izin}', [IzinController::class, 'update'])->name('izin.update');
 	Route::delete('izin/{izin}', [IzinController::class, 'destroy'])->name('izin.destroy');
@@ -114,4 +122,13 @@ Route::middleware(['auth'])->prefix('pegawai')->name('pegawai.')->group(function
 
 	// Simpan data profil baru
 	Route::post('profil', [PegawaiProfilPegawaiController::class, 'store'])->name('profil.store');
+
+	Route::get('presensi', [PegawaiPresensiController::class, 'index'])->name('presensi.index');
+	Route::get('presensi/create', [PegawaiPresensiController::class, 'create'])->name('presensi.create');
+	Route::post('presensi', [PegawaiPresensiController::class, 'store'])->name('presensi.store');
+	Route::get('presensi/izin', [PegawaiPresensiController::class, 'izin'])->name('presensi.izin');
+	Route::post('presensi/izin', [PegawaiPresensiController::class, 'storeIzin'])->name('presensi.storeIzin');
+	Route::post('/presensi/clock-out', [PegawaiPresensiController::class, 'clockOut'])->name('presensi.clockOut');
+
+
 });
