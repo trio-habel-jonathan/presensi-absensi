@@ -11,10 +11,12 @@ class ProfilPegawai extends Model
 
     protected $table = 'profil_pegawai';
     protected $primaryKey = 'id_profil_pegawai';
-    public $incrementing = true;
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_profil_pegawai adalah integer
     protected $fillable = [
+        'foto_pegawai',
         'nama_pegawai',
-        'no_identitas',
+        'no_identitas', // NIK atau NIP
         'tempat_lahir',
         'tanggal_lahir',
         'jenis_kelamin',

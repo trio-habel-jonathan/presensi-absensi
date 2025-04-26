@@ -22,7 +22,7 @@ class User extends Authenticatable
     protected $keyType = 'int'; // Karena id_user adalah integer
 
     protected $fillable = [
-
+        'username',
         'email',
         'password',
         'role',

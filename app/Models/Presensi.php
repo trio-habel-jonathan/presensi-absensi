@@ -10,7 +10,9 @@ class Presensi extends Model
     use HasFactory;
 
     protected $table = 'presensi';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_presensi';
+    public $incrementing = true; // Karena auto_increment
+    protected $keyType = 'int'; // Karena id_presensi adalah integer
     protected $fillable = [
         'id_profil_pegawai',
         'tanggal',
