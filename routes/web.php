@@ -54,11 +54,11 @@ Route::get('/{page}', [PageController::class, 'index'])->name('page');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // RUTE FITUR ASLI 
-Route::prefix("/dashboard")->group(function() {
+Route::prefix("/dashboard")->group(function () {
 	Route::resource('profil_pegawai', AdminProfilPegawaiController::class)->names('profil_pegawai');;
 	Route::resource('golongan', GolonganController::class)->names('golongan');
 	Route::resource('jenis_pegawai', JenisPegawaiController::class)->names('jenis_pegawai');
-	Route::resource('presensi', PresensiController::class)->names('presensi');
+	Route::resource('presensi', AdminPresensiController::class)->names('presensi');
 	Route::resource('izin', IzinController::class)->names('izin');
 });
 
@@ -70,6 +70,14 @@ Route::middleware(['auth'])->prefix('pegawai')->name('pegawai.')->group(function
 	// Form tambah profil
 	Route::get('profil/create', [PegawaiProfilPegawaiController::class, 'create'])->name('profil.create');
 
-    // Simpan data profil baru
-    Route::post('profil', [PegawaiProfilPegawaiController::class, 'store'])->name('profil.store');
+	// Simpan data profil baru
+	Route::post('profil', [PegawaiProfilPegawaiController::class, 'store'])->name('profil.store');
+
+	Route::get('presensi', [PegawaiPresensiController::class, 'index'])->name('presensi.index');
+	Route::get('presensi/create', [PegawaiPresensiController::class, 'create'])->name('presensi.create');
+	Route::get('presensi/izin', [PegawaiPresensiController::class, 'izin'])->name('presensi.izin');
+	Route::post('presensi/store', [PegawaiPresensiController::class, 'store'])->name('presensi.store');
+	Route::post('presensi/store-izin', [PegawaiPresensiController::class, 'storeIzin'])->name('presensi.storeIzin');
+	Route::get('presensi/detail', [PegawaiPresensiController::class, 'detail'])->name('presensi.detail');
+	Route::post('presensi/clockOut', [PegawaiPresensiController::class, 'clockOut'])->name('presensi.clockOut');
 });

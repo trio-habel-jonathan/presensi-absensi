@@ -40,8 +40,9 @@ class PresensiController extends Controller
             ->where('tanggal', $today)
             ->whereNotNull('jam_keluar')
             ->exists();
-
-        return view('pegawai.presensi.index', compact('profilPegawai', 'hasClockedIn', 'hasClockedOut'));
+        $presensi = Presensi::where('id_profil_pegawai', $profilPegawai->id_profil_pegawai)->where('tanggal', $today)->whereNotNull('jam_masuk')
+            ->first();
+        return view('pegawai.presensi.index', compact('profilPegawai', 'hasClockedIn', 'hasClockedOut', 'presensi'));
     }
 
     /**
@@ -120,7 +121,7 @@ class PresensiController extends Controller
         }
 
         Presensi::create($validated);
-        return redirect()->route('presensi.index')->with('success', 'Clock-in berhasil disimpan.');
+        return redirect()->route('pegawai.presensi.index')->with('success', 'Clock-in berhasil disimpan.');
     }
 
     /**
